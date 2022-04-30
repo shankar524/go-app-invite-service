@@ -8,12 +8,10 @@ import (
 	"gorm.io/gorm"
 )
 
-// Database ->
 type Database struct {
 	DB *gorm.DB
 }
 
-// NewDatabase ->
 func NewDatabase(env Env) Database {
 	username := env.DBUsername
 	password := env.DBPassword
