@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,8 +13,6 @@ type APIValidationMiddleware struct {
 }
 
 func (a APIValidationMiddleware) Validate(c *gin.Context) {
-	log.Print("Running api-key validation")
-
 	providedKey := c.Request.Header.Get(a.HeaderField)
 	if providedKey != a.env.ApiKey {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "invalid api key"})
