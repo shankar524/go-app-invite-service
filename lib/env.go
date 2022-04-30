@@ -4,7 +4,6 @@ import (
 	"os"
 )
 
-// Env has environment stored
 type Env struct {
 	ServerPort    string
 	Environment   string
@@ -20,14 +19,12 @@ type Env struct {
 	ApiKey        string
 }
 
-// NewEnv creates a new environment
 func NewEnv() Env {
 	env := Env{}
 	env.LoadEnv()
 	return env
 }
 
-// LoadEnv loads environment
 func (env *Env) LoadEnv() {
 	env.ServerPort = os.Getenv("APP_PORT")
 	env.Environment = os.Getenv("ENV")
