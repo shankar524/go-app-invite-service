@@ -18,11 +18,13 @@ func NewTokenRepository(db lib.Database, cache lib.Cache) TokenRepository {
 
 func (t *TokenRepository) Migrate() error {
 	log.Print("TokenRepository :: Migrate")
+
 	return t.db.DB.AutoMigrate(&models.Token{})
 }
 
 func (t *TokenRepository) Save(token models.Token) (models.Token, error) {
 	log.Print("TokenRepository :: Save")
+
 	err := t.db.DB.Create(&token).Error
 	if err != nil {
 		log.Printf("error on saving token. Error: %s", err.Error())
@@ -31,9 +33,9 @@ func (t *TokenRepository) Save(token models.Token) (models.Token, error) {
 	return token, err
 }
 
-// GetAll ->
 func (t *TokenRepository) GetAll() (tokens []models.Token, err error) {
 	log.Print("TokenRepository :: GetAll")
+
 	result := t.db.DB.Find(&tokens)
 
 	return tokens, result.Error
@@ -41,6 +43,7 @@ func (t *TokenRepository) GetAll() (tokens []models.Token, err error) {
 
 func (t *TokenRepository) GetByID(id string) (token models.Token, err error) {
 	log.Print("TokenRepository :: GetByID")
+
 	err = t.db.DB.Where("id = ?", id).First(&token).Error
 
 	return
@@ -48,11 +51,12 @@ func (t *TokenRepository) GetByID(id string) (token models.Token, err error) {
 
 func (t *TokenRepository) DisableTokenByID(id string) (token models.Token, err error) {
 	log.Print("TokenRepository :: DisableTokenByID")
-	token, err = t.GetByID(id)
 
+	token, err = t.GetByID(id)
 	if err != nil {
 		return
 	}
+
 	err = t.db.DB.Model(&models.Token{}).Where("id = ?", id).Update("disabled", true).Error
 	if err != nil {
 		return
