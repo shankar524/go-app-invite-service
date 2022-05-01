@@ -1,6 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # go-app-invite-service
-This is service that allow to generate invite token by admin. Invite token can be later validated.
+This service allows generating invite token by admin. Invite token can validated.
 
 # Design
 ![System Design](./img/system_diagram.png "System design")
