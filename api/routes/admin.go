@@ -12,9 +12,9 @@ import (
 
 type AdminRoutes struct {
 	handler         lib.RequestHandler
-	tokenController controller.TokenController
-	tokenRepository repository.TokenRepository
-	validator       middlewares.APIValidationMiddleware
+	tokenController controller.ITokenController
+	tokenRepository repository.ITokenRepository
+	validator       middlewares.IValidator
 	scheduler       cron.Cron
 }
 
@@ -39,9 +39,9 @@ func (s AdminRoutes) Setup() {
 func NewAdminRoutes(handler lib.RequestHandler, tc controller.TokenController, tr repository.TokenRepository, validator middlewares.APIValidationMiddleware, scheduler cron.Cron) AdminRoutes {
 	return AdminRoutes{
 		handler:         handler,
-		tokenController: tc,
-		tokenRepository: tr,
-		validator:       validator,
+		tokenController: &tc,
+		tokenRepository: &tr,
+		validator:       &validator,
 		scheduler:       scheduler,
 	}
 }

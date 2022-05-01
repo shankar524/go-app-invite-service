@@ -8,8 +8,8 @@ import (
 
 type PublicRoutes struct {
 	handler         lib.RequestHandler
-	tokenController controller.TokenController
-	rateLimiter     middlewares.APIRateLimiterMiddleware
+	tokenController controller.ITokenController
+	rateLimiter     middlewares.IRateLimiter
 }
 
 func (s PublicRoutes) Setup() {
@@ -23,7 +23,7 @@ func (s PublicRoutes) Setup() {
 func NewPublicRoutes(handler lib.RequestHandler, tokenController controller.TokenController, rateLimiter middlewares.APIRateLimiterMiddleware) PublicRoutes {
 	return PublicRoutes{
 		handler:         handler,
-		tokenController: tokenController,
-		rateLimiter:     rateLimiter,
+		tokenController: &tokenController,
+		rateLimiter:     &rateLimiter,
 	}
 }

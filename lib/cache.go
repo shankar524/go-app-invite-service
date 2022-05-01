@@ -11,6 +11,12 @@ type Cache struct {
 	Connection *redis.Pool
 }
 
+type ICache interface {
+	Save(string) error
+	Exists(string) (bool, error)
+	Delete(string) (bool, error)
+}
+
 func NewCache(env Env) Cache {
 	host := env.CacheHost
 	port := env.CachePort

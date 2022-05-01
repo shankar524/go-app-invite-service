@@ -14,6 +14,10 @@ type APIRateLimiterMiddleware struct {
 	Rate int
 }
 
+type IRateLimiter interface {
+	RateLimit(*gin.Context)
+}
+
 func (a APIRateLimiterMiddleware) RateLimit(c *gin.Context) {
 	var clientRecord sync.Map
 	client := c.ClientIP()
