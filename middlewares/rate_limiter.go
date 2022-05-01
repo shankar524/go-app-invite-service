@@ -35,6 +35,6 @@ func (a APIRateLimiterMiddleware) RateLimit(c *gin.Context) {
 	clientRecord.Store(client, lm)
 }
 
-func NewAPIRateLimiterMiddleware(env lib.Env) APIRateLimiterMiddleware {
-	return APIRateLimiterMiddleware{env.ApiRate}
+func NewAPIRateLimiterMiddleware(env lib.Env) IRateLimiter {
+	return &APIRateLimiterMiddleware{env.ApiRate}
 }

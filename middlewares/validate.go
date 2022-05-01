@@ -24,6 +24,6 @@ func (a APIValidationMiddleware) Validate(c *gin.Context) {
 	}
 }
 
-func NewAPIValidationMiddleware(env lib.Env) APIValidationMiddleware {
-	return APIValidationMiddleware{HeaderField: "api-key", env: env}
+func NewAPIValidationMiddleware(env lib.Env) IValidator {
+	return &APIValidationMiddleware{HeaderField: "api-key", env: env}
 }

@@ -20,9 +20,9 @@ type ITokenService interface {
 	InvalidateToken(days int) error
 }
 
-func NewTokenService(repo repository.TokenRepository, textgenerator text.Generator) TokenService {
-	return TokenService{
-		tokenRepository: &repo,
+func NewTokenService(repo repository.ITokenRepository, textgenerator text.Generator) ITokenService {
+	return &TokenService{
+		tokenRepository: repo,
 		textgenerator:   textgenerator,
 	}
 }

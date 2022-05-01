@@ -23,9 +23,9 @@ type ITokenController interface {
 	ValidateToken(*gin.Context)
 }
 
-func NewTokenController(tokenService service.TokenService) TokenController {
-	return TokenController{
-		service: &tokenService,
+func NewTokenController(tokenService service.ITokenService) ITokenController {
+	return &TokenController{
+		service: tokenService,
 	}
 }
 

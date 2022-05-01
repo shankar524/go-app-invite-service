@@ -11,7 +11,7 @@ type Cron struct {
 
 const TOKEN_CLEANUP_AFTER_DAYS = 7
 
-func NewCleanupTokens(service service.TokenService) Cron {
+func NewCleanupTokens(service service.ITokenService) Cron {
 	c := cron.New()
 	c.AddFunc("0 0 * * *", func() {
 		service.InvalidateToken(TOKEN_CLEANUP_AFTER_DAYS)

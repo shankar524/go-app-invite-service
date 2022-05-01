@@ -36,12 +36,12 @@ func (s AdminRoutes) Setup() {
 	}
 }
 
-func NewAdminRoutes(handler lib.RequestHandler, tc controller.TokenController, tr repository.TokenRepository, validator middlewares.APIValidationMiddleware, scheduler cron.Cron) AdminRoutes {
+func NewAdminRoutes(handler lib.RequestHandler, tc controller.ITokenController, tr repository.ITokenRepository, validator middlewares.IValidator, scheduler cron.Cron) AdminRoutes {
 	return AdminRoutes{
 		handler:         handler,
-		tokenController: &tc,
-		tokenRepository: &tr,
-		validator:       &validator,
+		tokenController: tc,
+		tokenRepository: tr,
+		validator:       validator,
 		scheduler:       scheduler,
 	}
 }

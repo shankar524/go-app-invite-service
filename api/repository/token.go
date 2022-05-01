@@ -23,8 +23,8 @@ type ITokenRepository interface {
 	InvalidateToken(int) error
 }
 
-func NewTokenRepository(db lib.Database, cache lib.ICache) TokenRepository {
-	return TokenRepository{db, cache}
+func NewTokenRepository(db lib.Database, cache lib.ICache) ITokenRepository {
+	return &TokenRepository{db, cache}
 }
 
 func (t *TokenRepository) Migrate() error {

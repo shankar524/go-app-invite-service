@@ -17,7 +17,7 @@ type ICache interface {
 	Delete(string) (bool, error)
 }
 
-func NewCache(env Env) Cache {
+func NewCache(env Env) ICache {
 	host := env.CacheHost
 	port := env.CachePort
 	password := env.CachePassword
@@ -42,7 +42,7 @@ func NewCache(env Env) Cache {
 		},
 	}
 	log.Print("Cache connection established")
-	return Cache{RedisConn}
+	return &Cache{RedisConn}
 }
 
 // Set a key/value
