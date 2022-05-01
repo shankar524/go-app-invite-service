@@ -37,6 +37,7 @@ This service allows generating invite token by admin. Invite token can validated
   REDIS_PORT=6379
   REDIS_PASSWORD=
   API_KEY=test
+  API_RATE=10
   ```
 - run app: `make run`
 
