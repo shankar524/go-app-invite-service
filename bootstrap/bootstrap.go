@@ -7,6 +7,7 @@ import (
 	"github.com/shankar524/go-app-invite-service/api/repository"
 	"github.com/shankar524/go-app-invite-service/api/routes"
 	"github.com/shankar524/go-app-invite-service/api/service"
+	"github.com/shankar524/go-app-invite-service/cron"
 	"github.com/shankar524/go-app-invite-service/lib"
 	"github.com/shankar524/go-app-invite-service/middlewares"
 
@@ -20,6 +21,7 @@ var Module = fx.Options(
 	routes.Module,
 	service.Module,
 	repository.Module,
+	cron.Module,
 	fx.Invoke(bootstrap),
 )
 

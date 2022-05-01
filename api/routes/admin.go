@@ -5,6 +5,7 @@ import (
 
 	"github.com/shankar524/go-app-invite-service/api/controller"
 	"github.com/shankar524/go-app-invite-service/api/repository"
+	"github.com/shankar524/go-app-invite-service/cron"
 	"github.com/shankar524/go-app-invite-service/lib"
 	"github.com/shankar524/go-app-invite-service/middlewares"
 )
@@ -14,6 +15,7 @@ type AdminRoutes struct {
 	tokenController controller.TokenController
 	tokenRepository repository.TokenRepository
 	validator       middlewares.APIValidationMiddleware
+	scheduler       cron.Cron
 }
 
 func (s AdminRoutes) Setup() {
@@ -21,6 +23,9 @@ func (s AdminRoutes) Setup() {
 	if err := s.tokenRepository.Migrate(); err != nil {
 		log.Fatal("User migrate err", err)
 	}
+
+	s.scheduler.Job.Start()
+
 	adminRoutes := s.handler.Gin.Group("/api/v1/admin")
 	adminRoutes.Use(s.validator.Validate)
 	{
@@ -31,11 +36,12 @@ func (s AdminRoutes) Setup() {
 	}
 }
 
-func NewAdminRoutes(handler lib.RequestHandler, tc controller.TokenController, tr repository.TokenRepository, validator middlewares.APIValidationMiddleware) AdminRoutes {
+func NewAdminRoutes(handler lib.RequestHandler, tc controller.TokenController, tr repository.TokenRepository, validator middlewares.APIValidationMiddleware, scheduler cron.Cron) AdminRoutes {
 	return AdminRoutes{
 		handler:         handler,
 		tokenController: tc,
 		tokenRepository: tr,
 		validator:       validator,
+		scheduler:       scheduler,
 	}
 }
