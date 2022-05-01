@@ -1,4 +1,5 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/shankar524/go-app-invite-service/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/shankar524/go-app-invite-service/actions/workflows/test.yml)
 # go-app-invite-service
 This service allows generating invite token by admin. Invite token can validated.
 
