@@ -2,6 +2,7 @@ package lib
 
 import (
 	"os"
+	"strconv"
 )
 
 type Env struct {
@@ -16,6 +17,7 @@ type Env struct {
 	CachePort     string
 	CachePassword string
 	ApiKey        string
+	ApiRate       int
 }
 
 func NewEnv() Env {
@@ -35,4 +37,5 @@ func (env *Env) LoadEnv() {
 	env.CachePort = os.Getenv("REDIS_PORT")
 	env.CachePassword = os.Getenv("REDIS_PASSWORD")
 	env.ApiKey = os.Getenv("API_KEY")
+	env.ApiRate, _ = strconv.Atoi(os.Getenv("API_RATE"))
 }
