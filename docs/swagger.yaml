@@ -41,6 +41,16 @@ paths:
                 success:
                   value:
                     { "message": "API up and running"}
+        429:
+          description: Api rate limit exceeded
+          content:
+             application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: rate limit exceeded
   /api/v1/admin/token:
     get:
       tags:
