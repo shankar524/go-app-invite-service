@@ -1,0 +1,197 @@
+openapi: 3.0.1
+info:
+  title: Token Service
+  description: This API specs is Token Service 
+  termsOfService: ""
+  contact:
+    email: shankar.acharya524@gmail.com
+  license:
+    name: N/A
+    url: N/A
+  version: 1.0.0
+servers:
+- url: http://localhost:800
+tags:
+- name: Service
+  description: Service health
+- name: Admin
+  description: Protected api routes. Can be accessed only by adding valid `api-key`
+- name: Public
+  description: This is public api routes. No authentication is required.
+paths:
+  /health-check:
+    get:
+      tags:
+      - Service
+      summary: Checks if the service is up
+      description: Checks if the service is up and returns a 200 and status text.
+      operationId: ServiceStatus
+      responses:
+        200:
+          description: Service health check endpoint
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: API up and running
+              examples:
+                success:
+                  value:
+                    { "message": "API up and running"}
+  /api/v1/admin/token:
+    get:
+      tags:
+      - Admin
+      summary: Returns all tokens
+      description: |
+        Returns list of all tokens
+      operationId: ListTokens
+      responses:
+        200:
+          description: Returns list of tokens
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/tokenSchema'
+        500:
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerErrorSchema'
+    post:
+     tags:
+     - Admin
+     summary: Create a new token
+     operationId: CreateTokens
+     responses:
+      200:
+        description: Returns details of newly created token
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tokenSchema'
+      
+      500:
+        description: Internal error
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/internalServerErrorSchema'
+  /api/v1/admin/token/{id}:
+    get:
+      tags:
+      - Admin
+      summary: Returns token with id
+      operationId: GetToken
+      parameters:
+      - name: id
+        in: path
+        description: Token id
+        required: true
+        schema:
+          type: number
+      responses:
+        200:
+          description: Returns token details of token having id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tokenSchema'
+        404:
+          description: Returns token not found
+          content:
+            applciation/json:
+              schema:
+                $ref: '#/components/schemas/tokenNotFound'
+  /api/v1/admin/token/{id}/disable:
+    post:
+      tags:
+      - Admin
+      summary: Disables given token
+      operationId: DisableToken
+      parameters:
+      - name: id
+        in: path
+        description: Token id
+        required: true
+        schema:
+          type: number
+      responses:
+        200:
+          description: Returns token details of token having id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tokenSchema'
+        404:
+          description: Returns token not found
+          content:
+            applciation/json:
+              schema:
+                $ref: '#/components/schemas/tokenNotFound'
+  /api/v1/public/token/validate:
+    post:
+      tags:
+      - Public
+      summary: Checks if a token is valid
+      operationId: ValidateToken
+      requestBody:
+        description: The request body to validate token
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+               token:
+                type: string
+                example: 1jzfcAKsC
+      responses:
+        200:
+          description: Response when token is valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: valid token
+        403:
+          description: Response when token is invalid
+          content:
+            applciation/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: token not valid. Please provide valid token
+components:
+  schemas:
+    tokenSchema:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        token:
+          type: string
+          example: wCmXiw4oI
+        disabled:
+          type: boolean
+          example: false
+    tokenNotFound:
+      type: object
+      properties:
+        error:
+          type: string
+          example: token(1) was not found
+    internalServerErrorSchema:
+      type: string
+      example: something went wrong

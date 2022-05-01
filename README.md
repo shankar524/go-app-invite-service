@@ -39,3 +39,18 @@ This is service that allow to generate invite token by admin. Invite token can b
   API_KEY=test
   ```
 - run app: `make run`
+
+# API Authentication
+Admin api have authentication. API key based authentication for these routes. Add `API_KEY` value in `.env` file and supply it as `api-key` header field of each admin request
+```curl
+curl --location --request GET '<endpoint>/api/v1/admin/token' \
+--header 'api-key: <api_key>'
+```
+
+# API Authentication
+API documentation is build with [swagger](https://swagger.io/). To run api documentation execute following command:
+  ```
+  make doc
+  ```
+
+![API Doc](./img/swagger.png "api doc")
