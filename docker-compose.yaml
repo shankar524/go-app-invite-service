@@ -1,0 +1,61 @@
+version: '3.8'
+services:
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - /data/mysql:/var/lib/mysql
+    #command: mysqld --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=test
+      - MYSQL_ROOT_PASSWORD=admin
+    expose:
+      - '3306'
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    expose:
+      - '6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
+  api:
+    container_name: token-service
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: dev
+    image: quotes-api
+    depends_on:
+      - db
+      - cache
+    ports:
+      - 3000:3000
+    expose:
+      - '3000'
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USERNAME: admin
+      DB_PASSWORD: admin
+      DB_NAME: test
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      API_KEY: test
+    links:
+      - db
+      - cache
+    volumes:
+      - ./:/src
+volumes:
+  db:
+    driver: local
+  cache:
+    driver: local
