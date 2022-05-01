@@ -2,6 +2,9 @@ DOC_PORT:=8080
 run:
 	go run main.go
 
+test:
+	go test ./...
+
 docs:
 	@echo
 	@echo "--- OPEN THIS LINK TO VIEW SWAGGER DOCS ---"
