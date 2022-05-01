@@ -8,4 +8,7 @@ docs:
 	@echo "http://localhost:${DOC_PORT}/?url=http://localhost:${DOC_PORT}/mnt/swagger.yaml?q=$(shell date +%s)"
 	@echo
 	docker run -e PORT=${DOC_PORT} -p ${DOC_PORT}:${DOC_PORT} -v `pwd`:/usr/share/nginx/html/mnt swaggerapi/swagger-editor
+
+dev:
+	docker compose up
 .PHONY: docs
