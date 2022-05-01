@@ -12,11 +12,19 @@ import (
 )
 
 type TokenController struct {
-	service service.TokenService
+	service service.ITokenService
 }
 
-func NewTokenController(tokenService service.TokenService) TokenController {
-	return TokenController{
+type ITokenController interface {
+	Create(*gin.Context)
+	GetAll(*gin.Context)
+	GetByID(*gin.Context)
+	DisableTokenByID(*gin.Context)
+	ValidateToken(*gin.Context)
+}
+
+func NewTokenController(tokenService service.ITokenService) ITokenController {
+	return &TokenController{
 		service: tokenService,
 	}
 }

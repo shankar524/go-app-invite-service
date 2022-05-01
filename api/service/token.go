@@ -7,12 +7,21 @@ import (
 )
 
 type TokenService struct {
-	tokenRepository repository.TokenRepository
+	tokenRepository repository.ITokenRepository
 	textgenerator   text.Generator
 }
 
-func NewTokenService(repo repository.TokenRepository, textgenerator text.Generator) TokenService {
-	return TokenService{
+type ITokenService interface {
+	Create() (models.Token, error)
+	GetAll() ([]models.Token, error)
+	GetByID(string) (models.Token, error)
+	DisableTokenByID(id string) (models.Token, error)
+	ValidateToken(token string) (bool, error)
+	InvalidateToken(days int) error
+}
+
+func NewTokenService(repo repository.ITokenRepository, textgenerator text.Generator) ITokenService {
+	return &TokenService{
 		tokenRepository: repo,
 		textgenerator:   textgenerator,
 	}

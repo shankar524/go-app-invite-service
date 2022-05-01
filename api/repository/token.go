@@ -10,11 +10,21 @@ import (
 
 type TokenRepository struct {
 	db    lib.Database
-	cache lib.Cache
+	cache lib.ICache
 }
 
-func NewTokenRepository(db lib.Database, cache lib.Cache) TokenRepository {
-	return TokenRepository{db, cache}
+type ITokenRepository interface {
+	Migrate() error
+	Save(token models.Token) (models.Token, error)
+	GetAll() (tokens []models.Token, err error)
+	GetByID(string) (models.Token, error)
+	DisableTokenByID(string) (models.Token, error)
+	ValidToken(string) (bool, error)
+	InvalidateToken(int) error
+}
+
+func NewTokenRepository(db lib.Database, cache lib.ICache) ITokenRepository {
+	return &TokenRepository{db, cache}
 }
 
 func (t *TokenRepository) Migrate() error {
@@ -76,6 +86,8 @@ func (t *TokenRepository) ValidToken(token string) (bool, error) {
 	return t.cache.Exists(token)
 }
 
+// InvalidateToken updates all token that were created provided days ago
+// and sets disabled property as true
 func (t *TokenRepository) InvalidateToken(days int) error {
 	var tokens []models.Token
 	result := t.db.DB.Where("disabled = ? AND created_at::DATE < DATEADD(day, ?, GETDATE())", false, -1*days).Find(&tokens)

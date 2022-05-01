@@ -12,6 +12,10 @@ type APIValidationMiddleware struct {
 	env         lib.Env
 }
 
+type IValidator interface {
+	Validate(c *gin.Context)
+}
+
 func (a APIValidationMiddleware) Validate(c *gin.Context) {
 	providedKey := c.Request.Header.Get(a.HeaderField)
 	if providedKey != a.env.ApiKey {
@@ -20,6 +24,6 @@ func (a APIValidationMiddleware) Validate(c *gin.Context) {
 	}
 }
 
-func NewAPIValidationMiddleware(env lib.Env) APIValidationMiddleware {
-	return APIValidationMiddleware{HeaderField: "api-key", env: env}
+func NewAPIValidationMiddleware(env lib.Env) IValidator {
+	return &APIValidationMiddleware{HeaderField: "api-key", env: env}
 }
