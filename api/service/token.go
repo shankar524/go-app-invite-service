@@ -39,3 +39,7 @@ func (ts *TokenService) DisableTokenByID(id string) (models.Token, error) {
 func (ts *TokenService) ValidateToken(token string) (bool, error) {
 	return ts.tokenRepository.ValidToken(token)
 }
+
+func (ts *TokenService) InvalidateToken(days int) error {
+	return ts.tokenRepository.InvalidateToken(days)
+}

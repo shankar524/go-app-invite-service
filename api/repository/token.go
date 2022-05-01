@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/shankar524/go-app-invite-service/lib"
@@ -73,4 +74,22 @@ func (t *TokenRepository) DisableTokenByID(id string) (token models.Token, err e
 func (t *TokenRepository) ValidToken(token string) (bool, error) {
 	log.Print("TokenRepository :: ValidToken")
 	return t.cache.Exists(token)
+}
+
+func (t *TokenRepository) InvalidateToken(days int) error {
+	var tokens []models.Token
+	result := t.db.DB.Where("disabled = ? AND created_at::DATE < DATEADD(day, ?, GETDATE())", false, -1*days).Find(&tokens)
+	err := result.Error
+
+	if result.Error != nil {
+		return err
+	}
+
+	for _, token := range tokens {
+		_, err = t.DisableTokenByID(fmt.Sprintf("%d", token.ID))
+		if err != nil {
+			break
+		}
+	}
+	return err
 }
