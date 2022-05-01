@@ -40,6 +40,11 @@ This service allows generating invite token by admin. Invite token can validated
   ```
 - run app: `make run`
 
+Or just run locally using docker compose
+  ```
+  make dev
+  ```
+
 # API Authentication
 Admin api have authentication. API key based authentication for these routes. Add `API_KEY` value in `.env` file and supply it as `api-key` header field of each admin request
 ```curl
@@ -47,7 +52,7 @@ curl --location --request GET '<endpoint>/api/v1/admin/token' \
 --header 'api-key: <api_key>'
 ```
 
-# API Authentication
+# API Documentation
 API documentation is build with [swagger](https://swagger.io/). To run api documentation execute following command:
   ```
   make doc
