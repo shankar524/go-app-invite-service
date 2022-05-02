@@ -1,12 +1,13 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI](https://github.com/shankar524/go-app-invite-service/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/shankar524/go-app-invite-service/actions/workflows/test.yml)
 # go-app-invite-service
+Go service to allow generating and validating token. Admin can generate tokens, list tokens and invalidating tokens. There is a public api(throttled) which allows checking if token is valid or not
 This service allows generating invite token by admin. Invite token can validated.
 
-# Design
+## Design
 ![System Design](./img/system_diagram.png "System design")
 
-# Spinning up locally
+## Spinning up locally
 - install [MySql](https://www.mysql.com/downloads/) Or run mysql docker image
   ```
   docker run \
@@ -42,14 +43,14 @@ This service allows generating invite token by admin. Invite token can validated
   ```
 - run app: `make run`
 
-# API Authentication
+## API Authentication
 Admin api have authentication. API key based authentication for these routes. Add `API_KEY` value in `.env` file and supply it as `api-key` header field of each admin request
 ```curl
 curl --location --request GET '<endpoint>/api/v1/admin/token' \
 --header 'api-key: <api_key>'
 ```
 
-# API Documentation
+## API Documentation
 API documentation is build with [swagger](https://swagger.io/). To run api documentation execute following command:
   ```
   make doc
