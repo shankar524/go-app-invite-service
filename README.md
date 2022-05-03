@@ -3,6 +3,16 @@
 # go-app-invite-service
 Go service to allow generating and validating token. Admin can generate tokens, list tokens and invalidating tokens. There is a public api(throttled) which allows checking if token is valid or not
 This service allows generating invite token by admin. Invite token can validated.
+Functionalities:
+- For Admin:
+  - Allows generating token(token cached in Redis)
+  - Allows getting details of token
+  - Allows listing tokens
+  - Allows deactivating token
+  - Requests are validated in admin routes(via api key validation)
+- for Public
+  - Allows validating token(done via redis)
+  - Request throttled for public routes
 
 ## Design
 ![System Design](./img/system_diagram.png "System design")
