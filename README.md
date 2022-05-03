@@ -7,6 +7,26 @@ This service allows generating invite token by admin. Invite token can validated
 ## Design
 ![System Design](./img/system_diagram.png "System design")
 
+## Folder structure
+```bash
+├── api
+│   ├── controller
+│   ├── repository
+│   ├── routes
+│   └── service
+├── bootstrap
+├── cron
+├── docs
+│   └── swagger.yaml
+├── img
+├── lib
+├── middlewares
+└── models
+│   └── token.go
+├── makefile
+├── main.go
+```
+
 ## Spinning up locally
 - install [MySql](https://www.mysql.com/downloads/) Or run mysql docker image
   ```
