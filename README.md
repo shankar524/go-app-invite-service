@@ -20,11 +20,10 @@ This service allows generating invite token by admin. Invite token can validated
 │   └── swagger.yaml
 ├── img
 ├── lib
+├── main.go
+├── makefile
 ├── middlewares
 └── models
-│   └── token.go
-├── makefile
-├── main.go
 ```
 
 ## Spinning up locally
