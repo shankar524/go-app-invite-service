@@ -1,21 +1,27 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI](https://github.com/shankar524/go-app-invite-service/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/shankar524/go-app-invite-service/actions/workflows/test.yml)
-# go-app-invite-service
-Go service to allow generating and validating token. Admin can generate tokens, list tokens and invalidating tokens. There is a public api(throttled) which allows checking if token is valid or not
-This service allows generating invite token by admin. Invite token can validated.
-Functionalities:
-- For Admin:
-  - Allows generating token(token cached in Redis)
-  - Allows getting details of token
-  - Allows listing tokens
-  - Allows deactivating token
-  - Requests are validated in admin routes(via api key validation)
-- for Public
-  - Allows validating token(done via redis)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
+# Go based RESTful API service Boilerplate
+A boilerplate/starter project for quickly building production-ready RESTful APIs using Golang with features like:
+  - API server implemented in [go-genic](https://gin-gonic.com/)
+  - Handled common webserver scenarios:
+    - allows both API key validation(permanent access) and token based validation(temporary access)
+    - token rate limiting and caching
+    - pre-configured cron setup
+    - pre-implemented private and public routes
+    - Swagger docs setup
+    - RBAC implementation
+    - GitHub Action based CI setup to run test
+
+Additionally the following role-based functionality are already implemented:
+- Private routes:
+  - Generating and deactivating token(token gets cached)
+- Public routes:
+  - Make request on public routes with provided token
   - Request throttled for public routes
 
 ## Design
-![System Design](./img/system_diagram.png "System design")
+![System Design](./img/system-diagram.png "System design")
 
 ## Folder structure
 ```bash
@@ -36,7 +42,7 @@ Functionalities:
 └── models
 ```
 
-## Spinning up locally
+### Setting up locally
 - install [MySql](https://www.mysql.com/downloads/) Or run mysql docker image
   ```
   docker run \
@@ -72,14 +78,14 @@ Functionalities:
   ```
 - run app: `make run`
 
-## API Authentication
-Admin api have authentication. API key based authentication for these routes. Add `API_KEY` value in `.env` file and supply it as `api-key` header field of each admin request
+### API Authentication
+Private routes are api key protected wth API key authentication. Add `API_KEY` value in `.env` file and supply it as `api-key` header field of each admin request
 ```curl
 curl --location --request GET '<endpoint>/api/v1/admin/token' \
 --header 'api-key: <api_key>'
 ```
 
-## API Documentation
+### API Documentation
 API documentation is build with [swagger](https://swagger.io/). To run api documentation execute following command:
   ```
   make doc
